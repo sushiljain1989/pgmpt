@@ -1,0 +1,28 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Title</th>
+    <th scope="col">Description</th>
+    <th scope="col">Source</th>
+    <th scope="col">Status</th>
+    <th scope="col">Started at</th>
+    <th scope="col">Finished at</th>
+    <th scope="col">Payment terms</th>
+    <th scope="col">Cost</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let project of projects">
+    <th>{{project.id}}</th>
+    <th>{{project.title}}</th>
+    <th>{{project.description}}</th>
+    <th>{{project.source}}</th>
+    <th>{{project.status}}</th>
+    <th>{{project.started_at}}</th>
+    <th>{{project.finished_at}}</th>
+    <th>{{project.payment_terms}}</th>
+    <th>{{project.cost}}</th>
+  </tr>
+  </tbody>
+</table>
