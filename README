@@ -1,0 +1,6 @@
+1. take a checkout of this project
+2. cd to project directory
+3. run command `npm install`
+4. run command `npm start`
+
+**NOTE** : Data-model file will be available soon.
