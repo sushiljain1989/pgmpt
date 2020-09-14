@@ -34,7 +34,9 @@ ProjectsModel.create = async (data, cb) => {
 
 ProjectsModel.fetchAll = async (data, cb) => {
     const conn = await connection.getConnection();
-    const query = 'select * from projects limit ' + data.skip + ', ' + data.limit;
+    const query = 'select projects.*, concat(first_name, \' \', users.last_name) as full_name, clients.email_address from projects'+
+        ' join clients on projects.clients_id = clients.id' +
+        ' join users on clients.users_id = users.id limit ' + data.skip + ', ' + data.limit;
     conn.query(query, [data.id], function (error, results, fields) {
         if (error) {
             error.message = 'error occurred while fetching the projects:' + data.id;
@@ -52,7 +54,10 @@ ProjectsModel.fetchAll = async (data, cb) => {
 
 ProjectsModel.fetchOne = async (data, cb) => {
     const conn = await connection.getConnection();
-    const query = 'select * from projects where id = ?'
+    const query = 'select projects.*, concat(first_name, \' \', users.last_name) as full_name, clients.email_address from projects'+
+        ' join clients on projects.clients_id = clients.id' +
+        ' join users on clients.users_id = users.id' +
+        ' where projects.id = ?'
     conn.query(query, [data.id], function (error, results, fields) {
         if (error) {
             error.message = 'error occurred while fetching the project record:' + data.id;

@@ -4,6 +4,8 @@
     <th scope="col">#</th>
     <th scope="col">Title</th>
     <th scope="col">Description</th>
+    <th scope="col">Client</th>
+    <th scope="col">Client email</th>
     <th scope="col">Source</th>
     <th scope="col">Status</th>
     <th scope="col">Started at</th>
@@ -14,15 +16,17 @@
   </thead>
   <tbody>
   <tr *ngFor="let project of projects">
-    <th>{{project.id}}</th>
-    <th>{{project.title}}</th>
-    <th>{{project.description}}</th>
-    <th>{{project.source}}</th>
-    <th>{{project.status}}</th>
-    <th>{{project.started_at}}</th>
-    <th>{{project.finished_at}}</th>
-    <th>{{project.payment_terms}}</th>
-    <th>{{project.cost}}</th>
+    <td>{{project.id}}</td>
+    <td>{{project.title}}</td>
+    <td>{{project.description}}</td>
+    <td>{{project.full_name}}</td>
+    <td>{{project.email_address}}</td>
+    <td>{{project.source}}</td>
+    <td>{{project.status}}</td>
+    <td>{{project.started_at}}</td>
+    <td>{{project.finished_at}}</td>
+    <td>{{project.payment_terms}}</td>
+    <td>{{project.cost}}</td>
   </tr>
   </tbody>
 </table>
