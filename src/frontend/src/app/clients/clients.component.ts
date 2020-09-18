@@ -28,7 +28,10 @@ export class ClientsComponent implements OnInit {
     });
 
   }
-  constructor(private clientService: ClientsService) { }
+  constructor(private clientService: ClientsService) {
+    this.gotoPage = this.gotoPage.bind(this);
+    this.setPageSize = this.setPageSize.bind(this);
+  }
 
   ngOnInit(): void {
     this.clientService.getClients(1, this.pageSize || 10).subscribe( (data: any) => {
