@@ -17,8 +17,8 @@ Clients.create = function (req, res) {
 
 Clients.findAll = function (req, res) {
     const data = {
-        limit: req.body.limit || 20,
-        skip: req.body.skip || 0
+        limit: req.query.limit || 20,
+        skip: req.query.skip || 0
     }
     model.fetchAll( data, (err, data) => {
         if( err ){

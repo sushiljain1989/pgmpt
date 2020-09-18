@@ -8,11 +8,42 @@ import {ClientsService} from '../clients.service';
 })
 export class ClientsComponent implements OnInit {
   clients: any[] = [];
+  currentPage:number = 1;
+  total: number = 0;
+  pages: number[] = [];
+  pageSize: number = 10;
 
+  setPageSize(size: number){
+    this.pageSize = size;
+    this.gotoPage(1);
+  }
+
+  gotoPage(page){
+    page = page < 1 ? 1 : page;
+    this.currentPage = page;
+    this.clientService.getClients( this.currentPage, this.pageSize ).subscribe( (data: any ) => {
+      this.clients = data.results;
+      this.total = data.totalCount;
+      this.generatePageNumbers();
+    });
+
+  }
   constructor(private clientService: ClientsService) { }
 
   ngOnInit(): void {
-    this.clientService.getClients().subscribe( (data: any[]) => this.clients = data);
+    this.clientService.getClients(1, this.pageSize || 10).subscribe( (data: any) => {
+      this.clients = data.results;
+      this.total = data.totalCount;
+      this.generatePageNumbers();
+    });
   }
 
+  private generatePageNumbers(): void{
+    let i = 1;
+    this.pages = [];
+    while ( i <= Math.ceil(this.total/this.pageSize ) ){
+      this.pages.push( i );
+      i++;
+    }
+  }
 }

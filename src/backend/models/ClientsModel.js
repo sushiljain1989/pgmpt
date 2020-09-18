@@ -40,14 +40,24 @@ ClientsModel.create = async ( data, cb ) => {
 
 ClientsModel.fetchAll = async ( data, cb ) => {
     const conn = await connection.getConnection();
-    const query = 'select users.first_name, users.last_name, clients.* from clients ' +
+    let totalCount = null;
+    let query = `SELECT COUNT(*) AS total_count from clients join users on clients.users_id = users.id;`;
+    conn.query(query, [data.id], function (error, results, fields) {
+        if (error) {
+            console.log('error while counting records');
+        } else{
+            totalCount = results[0].total_count;
+        }
+    });
+
+    query = 'SELECT users.first_name, users.last_name, clients.* from clients ' +
         'join users on clients.users_id = users.id limit ' + data.skip + ', ' + data.limit;
     conn.query(query, [data.id], function (error, results, fields) {
         if (error) {
             error.message = 'error occurred while fetching the clients:'+data.id;
             cb(error);
         }
-        cb(null, results);
+        cb(null, {results, totalCount});
     });
 };
 

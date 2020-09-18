@@ -1,0 +1,22 @@
+<div>
+
+  <div ngbDropdown class="d-inline-block float-lg-right">
+    <button class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle>{{pageSize || 'Page Size'}}</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+      <button class="dropdown-item" (click)="setPageSize(10)">10</button>
+      <button class="dropdown-item" (click)="setPageSize(25)">25</button>
+      <button class="dropdown-item" (click)="setPageSize(50)">50</button>
+    </div>
+  </div>
+
+  <ul class="pagination float-lg-right" *ngIf="pages.length > 1">
+    <li class="page-item" *ngIf="currentPage > 1"><a class="page-link" (click)="gotoPage(1 )">First</a></li>
+    <li class="page-item" *ngIf="currentPage > 1"><a class="page-link" (click)="gotoPage(currentPage - 1)">Previous</a></li>
+    <li class="page-item" *ngFor="let pageNumber of pages" [ngClass]="{active: pageNumber === currentPage}">
+      <a class="page-link" (click)="gotoPage(pageNumber)">{{pageNumber}}</a>
+    </li>
+    <li class="page-item" *ngIf="currentPage < pages.length"><a class="page-link" (click)="gotoPage(currentPage + 1)">Next</a></li>
+    <li class="page-item" *ngIf="currentPage < pages.length"><a class="page-link" (click)="gotoPage(pages.length)">Last</a></li>
+  </ul>
+
+</div>
