@@ -41,8 +41,20 @@ InternalUsersModel.create = async ( data, cb ) => {
 
 InternalUsersModel.fetchAll = async ( data, cb ) => {
     const conn = await connection.getConnection();
-    const query = 'select users.first_name, users.last_name, internal_users.* from internal_users ' +
-        'join users on internal_users.users_id = users.id where internal_users.id limit ' + data.skip + ', ' + data.limit;
+    let totalCount = null;
+
+    let query = 'select COUNT(*) AS total_count  from internal_users ' +
+        'join users on internal_users.users_id = users.id';
+    conn.query(query, [data.id], function (error, results, fields) {
+        if (error) {
+            console.log('error while counting records');
+        } else{
+            totalCount = results[0].total_count;
+        }
+    });
+
+    query = 'select users.first_name, users.last_name, internal_users.* from internal_users ' +
+        'join users on internal_users.users_id = users.id limit ' + data.skip + ', ' + data.limit;
     conn.query(query, [data.id], function (error, results, fields) {
         if (error) {
             error.message = 'error occurred while fetching the user record:'+data.id;
@@ -54,7 +66,7 @@ InternalUsersModel.fetchAll = async ( data, cb ) => {
                 return result;
             });
         }
-        cb(null, results);
+        cb(null, {results, totalCount});
     });
 };
 

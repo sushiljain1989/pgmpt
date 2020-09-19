@@ -34,7 +34,6 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectService.getProjects(1, this.pageSize || 10).subscribe( (data: any) => {
-      console.log( data );
       this.projects = data.results;
       this.total = data.totalCount;
       this.generatePageNumbers();
