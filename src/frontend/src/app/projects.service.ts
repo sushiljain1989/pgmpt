@@ -9,8 +9,11 @@ export class ProjectsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getProjects(){
-    return this.httpClient.get(this.REST_API_SERVER + '/api/projects');
+  public getProjects(page:number = 1, limit: number = 1){
+    page = page < 1 ? 1: page;
+    const skip = (page - 1) * limit;
+    const queryParams = `?limit=${limit}&skip=${skip}`;
+    return this.httpClient.get(this.REST_API_SERVER + '/api/projects' + queryParams);
   }
 
 }

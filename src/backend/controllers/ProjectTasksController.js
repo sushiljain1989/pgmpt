@@ -17,8 +17,8 @@ ProjectTasks.create = function (req, res) {
 
 ProjectTasks.findAll = function (req, res) {
     const data = {
-        limit: req.body.limit || 20,
-        skip: req.body.skip || 0,
+        limit: req.query.limit || 20,
+        skip: req.query.skip || 0,
         projectId: req.params.projectId
     }
     model.fetchAll( data, (err, data) => {

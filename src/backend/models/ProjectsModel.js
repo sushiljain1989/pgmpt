@@ -34,7 +34,16 @@ ProjectsModel.create = async (data, cb) => {
 
 ProjectsModel.fetchAll = async (data, cb) => {
     const conn = await connection.getConnection();
-    const query = 'select projects.*, concat(first_name, \' \', users.last_name) as full_name, clients.email_address from projects'+
+    let totalCount = null;
+    let query = `SELECT COUNT(*) AS total_count from projects join clients on projects.clients_id = clients.id join users on clients.users_id = users.id`;
+    conn.query(query, [data.id], function (error, results, fields) {
+        if (error) {
+            console.log('error while counting records');
+        } else{
+            totalCount = results[0].total_count;
+        }
+    });
+    query = 'select projects.*, concat(first_name, \' \', users.last_name) as full_name, clients.email_address from projects'+
         ' join clients on projects.clients_id = clients.id' +
         ' join users on clients.users_id = users.id limit ' + data.skip + ', ' + data.limit;
     conn.query(query, [data.id], function (error, results, fields) {
@@ -48,7 +57,7 @@ ProjectsModel.fetchAll = async (data, cb) => {
                 return result;
             });
         }
-        cb(null, results);
+        cb(null, {results, totalCount});
     });
 };
 
